@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent
 # 장소별 배경 이미지 경로
 VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
 MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광장.png"
-CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른 첨탑의 고딕 성당 마을.png"
+CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른첨탑의 대성당 대성당.png"
+NIGHT_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래의 판타지 마을 골목.png"
 
 # 현재 장소 확인
 current_stage = st.session_state.get("stage", "intro")
@@ -29,6 +30,9 @@ if current_stage == "market":
 
 elif current_stage == "church":
     IMAGE_PATH = CHURCH_IMAGE_PATH
+
+elif current_stage == "night":
+    IMAGE_PATH = NIGHT_IMAGE_PATH
 
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
@@ -49,7 +53,6 @@ if IMAGE_PATH.is_file():
 
 else:
     background_css = "background: #151b18;"
-
 
 # ==========================================
 # 디자인
