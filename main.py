@@ -32,6 +32,9 @@ RESCUE_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
 # 숲 배경
 FOREST_IMAGE_PATH = BASE_DIR / "images" / "안개 속 신비로운 숲길.png"
 
+# 탈출 배경
+HAPPY_ENDING_IMAGE_PATH = BASE_DIR / "images" / "숲길 끝의 신비로운 빛.png"
+
 
 # 이미지 캐시
 @st.cache_data
@@ -62,6 +65,9 @@ elif current_stage == "rescue":
 
 elif current_stage in ["forest", "final_choice"]:
     IMAGE_PATH = FOREST_IMAGE_PATH
+
+elif current_stage == "happy_ending":
+    IMAGE_PATH = HAPPY_ENDING_IMAGE_PATH
 
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
