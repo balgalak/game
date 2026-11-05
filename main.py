@@ -15,8 +15,19 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 
-IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
+# 장소별 배경 이미지
+VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
+MARKET_IMAGE_PATH = BASE_DIR / "images" / "컬러풀 판타지 시장 광장.png"
 
+# 현재 장소에 따라 배경 이미지 선택
+current_stage = st.session_state.get("stage", "intro")
+
+if current_stage == "market":
+    IMAGE_PATH = MARKET_IMAGE_PATH
+else:
+    IMAGE_PATH = VILLAGE_IMAGE_PATH
+
+# 배경 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
         encoded_image = base64.b64encode(f.read()).decode("utf-8")
@@ -24,8 +35,8 @@ if IMAGE_PATH.is_file():
     background_css = f"""
     background-image:
         linear-gradient(
-            rgba(13, 22, 16, 0.45),
-            rgba(13, 22, 16, 0.65)
+            rgba(13, 22, 16, 0.35),
+            rgba(13, 22, 16, 0.50)
         ),
         url("data:image/png;base64,{encoded_image}");
     """
