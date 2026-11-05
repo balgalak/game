@@ -750,7 +750,6 @@ CHARACTER_IMAGES = {
     "???": MYSTERIOUS_IMAGE_PATH
     "주인공": OWNER_IMAGE_PATH
 }
-}
 
 if dialogues:
 
