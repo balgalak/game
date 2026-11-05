@@ -735,11 +735,22 @@ st.markdown(f"""
 dialogues = data.get("dialogues", [])
 choices = data.get("choices", [])
 
-# 바실리오스 이미지 경로
+# 캐릭터 이미지 경로
 BASILIOS_IMAGE_PATH = (
     BASE_DIR / "images" /
     "ChatGPT 이미지 2026년 11월 5일 오후 04_17_00.png"
 )
+
+KAIN_IMAGE_PATH = (
+    BASE_DIR / "images" /
+    "ChatGPT 이미지 2026년 11월 5일 오후 04_41_50.png"
+)
+
+# 캐릭터별 이미지 연결
+CHARACTER_IMAGES = {
+    "바실리오스": BASILIOS_IMAGE_PATH,
+    "카인": KAIN_IMAGE_PATH
+}
 
 if dialogues:
 
@@ -750,6 +761,7 @@ if dialogues:
 
     safe_message = html.escape(message)
 
+    # 나레이션
     if narration:
 
         st.markdown(f"""
@@ -758,26 +770,33 @@ if dialogues:
         </div>
         """, unsafe_allow_html=True)
 
+    # 캐릭터 대사
     else:
 
         safe_speaker = html.escape(speaker)
 
-        # 바실리오스가 말하는 경우
-        if speaker == "바실리오스" and BASILIOS_IMAGE_PATH.is_file():
+        # 현재 대사 인물의 이미지 가져오기
+        character_image = CHARACTER_IMAGES.get(speaker)
+
+        # 캐릭터 이미지가 존재하는 경우
+        if character_image and character_image.is_file():
 
             character_col, dialogue_col = st.columns([1, 2])
 
             with character_col:
+
                 st.markdown(
                     "<div style='height: 15px;'></div>",
                     unsafe_allow_html=True
                 )
+
                 st.image(
-                    str(BASILIOS_IMAGE_PATH),
+                    str(character_image),
                     width=260
                 )
 
             with dialogue_col:
+
                 st.markdown(f"""
                 <div class="dialogue-box">
                     <div class="speaker">{safe_speaker}</div>
@@ -785,7 +804,7 @@ if dialogues:
                 </div>
                 """, unsafe_allow_html=True)
 
-        # 다른 인물이 말하는 경우
+        # 이미지가 없는 인물
         else:
 
             st.markdown(f"""
@@ -795,6 +814,7 @@ if dialogues:
             </div>
             """, unsafe_allow_html=True)
 
+    # 대사 진행 상황
     st.markdown(
         f'<div class="small-text">{index + 1} / {len(dialogues)}</div>',
         unsafe_allow_html=True
@@ -802,6 +822,7 @@ if dialogues:
 
     st.progress((index + 1) / len(dialogues))
 
+    # 다음 대사
     if index < len(dialogues) - 1:
 
         if st.button("▼ 다음", key=f"next_{stage}_{index}"):
@@ -810,6 +831,7 @@ if dialogues:
 
     else:
 
+        # 엔딩
         if "ending" in data:
 
             st.markdown("---")
@@ -828,11 +850,11 @@ if dialogues:
             if st.button("↻ 처음부터 다시 시작"):
                 restart()
 
+        # 다음 장면
         elif data.get("next"):
 
             if st.button(data.get("next_label", "▼ 다음")):
                 move(data["next"])
-
 # ==========================================
 # 선택지
 # ==========================================
