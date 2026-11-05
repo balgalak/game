@@ -21,9 +21,19 @@ MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광
 CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른 첨탑의 고딕 성당 마을.png"
 NIGHT_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래의 판타지 마을 골목.png"
 CELL_IMAGE_PATH = BASE_DIR / "images" / "차가운 빛과 횃불의 감옥 폐허.png"
+ENCOUNTER_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
+
+
+# 이미지 캐시
+@st.cache_data
+def load_background_image(image_path):
+    with open(image_path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
 
 # 현재 장소 확인
 current_stage = st.session_state.get("stage", "intro")
+
 
 # 장소에 따라 배경 이미지 선택
 if current_stage == "market":
@@ -43,6 +53,22 @@ elif current_stage in ["night", "second_choice", "gameover", "home"]:
 
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
+
+
+# 배경 이미지 불러오기
+if IMAGE_PATH.is_file():
+    encoded_image = load_background_image(str(IMAGE_PATH))
+
+    background_css = f"""
+    background-image:
+        linear-gradient(
+            rgba(13, 22, 16, 0.35),
+            rgba(13, 22, 16, 0.50)
+        ),
+        url("data:image/png;base64,{encoded_image}");
+    """
+else:
+    background_css = "background: #151b18;"
 # 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
