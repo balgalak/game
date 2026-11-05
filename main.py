@@ -1,29 +1,33 @@
-
 import streamlit as st
 import html
 import base64
 from pathlib import Path
-
 st.set_page_config(
     page_title="THE LAST PRAYER",
     page_icon="🕯️",
     layout="centered"
-)
-
-# ==========================================
+)# ==========================================
 # 배경 이미지
 # ==========================================
-
-IMAGE_PATH = Path("images/village.png")
-
-if IMAGE_PATH.exists():
-    with open(IMAGE_PATH, "rb") as f:
-        encoded_image = base64.b64encode(f.read()).decode()
+# GitHub 저장소의 images/village.png를 우선 사용하고,
+# 혹시 최상위 폴더에만 이미지가 있어도 자동으로 찾도록 설정합니다.
+PROJECT_DIR = Path(__file__).resolve().parent
+IMAGE_CANDIDATES = [
+    PROJECT_DIR / "images" / "village.png",
+    PROJECT_DIR / "village.png",
+]IMAGE_PATH = next((path for path in IMAGE_CANDIDATES if path.is_file()), None)
+if IMAGE_PATH is not None:
+    encoded_image = base64.b64encode(IMAGE_PATH.read_bytes()).decode("utf-8")
     background_css = f"""
+        background-color: #151b18;
         background-image:
-        linear-gradient(rgba(13, 22, 16, 0.65),
-                        rgba(13, 22, 16, 0.85)),
-        url("data:image/png;base64,{encoded_image}");
+            linear-gradient(rgba(13, 22, 16, 0.28),
+                            rgba(13, 22, 16, 0.48)),
+            url("data:image/png;base64,{encoded_image}");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     """
 else:
     background_css = """
@@ -31,45 +35,38 @@ else:
             ellipse at top, #354638, #202a24 55%, #151b18
         );
     """
-
 # ==========================================
 # 디자인
 # ==========================================
-
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;700&display=swap');
-
 .stApp {{
     {background_css}
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
     color: #e9e3d2;
     font-family: 'Gowun Batang', serif;
 }}
-
 header[data-testid="stHeader"] {{
     background: transparent;
 }}
-
 #MainMenu, footer {{
     visibility: hidden;
 }}
-
 .block-container {{
     max-width: 850px;
     padding-top: 2rem;
     padding-bottom: 4rem;
 }}
-
 .game-header {{
     text-align: center;
     padding: 30px 10px;
     border-bottom: 1px solid #65735e;
     margin-bottom: 25px;
 }}
-
 .game-title {{
     font-family: 'Noto Serif KR', serif;
     font-size: 38px;
@@ -78,14 +75,12 @@ header[data-testid="stHeader"] {{
     font-weight: bold;
     text-shadow: 2px 2px 8px #000;
 }}
-
 .game-subtitle {{
     font-size: 11px;
     letter-spacing: 5px;
     color: #c1c5ad;
     margin-top: 10px;
 }}
-
 .game-scene {{
     background: rgba(20, 31, 23, 0.82);
     border: 1px solid #63725c;
@@ -95,24 +90,20 @@ header[data-testid="stHeader"] {{
     margin-bottom: 20px;
     backdrop-filter: blur(5px);
 }}
-
 .scene-icon {{
     font-size: 42px;
     margin-bottom: 12px;
 }}
-
 .scene-title {{
     font-size: 23px;
     font-weight: bold;
 }}
-
 .scene-subtitle {{
     font-size: 11px;
     color: #a8ad91;
     letter-spacing: 3px;
     margin-top: 8px;
 }}
-
 .dialogue-box {{
     background: rgba(13, 19, 15, 0.94);
     border: 1px solid #68745e;
@@ -125,55 +116,47 @@ header[data-testid="stHeader"] {{
     justify-content: center;
     backdrop-filter: blur(5px);
 }}
-
 .speaker {{
     color: #c4a77c;
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 15px;
 }}
-
 .dialogue {{
     color: #e9e3d2;
     font-size: 17px;
     line-height: 2;
     white-space: pre-wrap;
 }}
-
 .narration {{
     color: #aaa997;
     font-size: 15px;
     line-height: 2.1;
     font-style: italic;
 }}
-
 .choice-title {{
     text-align: center;
     font-size: 20px;
     margin: 30px 0 10px;
 }}
-
 .choice-description {{
     text-align: center;
     color: #a8ad91;
     font-size: 12px;
     margin-bottom: 20px;
 }}
-
 .small-text {{
     color: #c0c5b3;
     text-align: center;
     font-size: 11px;
     letter-spacing: 2px;
 }}
-
 .ending-title {{
     text-align: center;
     font-size: 35px;
     letter-spacing: 5px;
     padding: 25px 0;
 }}
-
 div.stButton > button {{
     width: 100%;
     background: rgba(53, 70, 56, 0.95);
@@ -185,27 +168,20 @@ div.stButton > button {{
     font-size: 15px;
     transition: 0.2s;
 }}
-
 div.stButton > button:hover {{
     background: #53634c;
     color: white;
     border-color: #d1c4a3;
 }}
-
 hr {{
     border-color: #65735e !important;
 }}
-
 </style>
 """, unsafe_allow_html=True)
-
-
 # ==========================================
 # 스토리 데이터
 # ==========================================
-
 SCENES = {
-
 "intro": {
     "icon": "🏘️",
     "title": "낯선 마을",
@@ -224,7 +200,6 @@ SCENES = {
     ],
     "next": "first_choice"
 },
-
 "first_choice": {
     "icon": "🕯️",
     "title": "첫 번째 선택",
@@ -236,7 +211,6 @@ SCENES = {
         ("② 괜찮아요. 혼자 둘러볼게요.", "first_choice_2")
     ]
 },
-
 "first_choice_2": {
     "icon": "🕯️",
     "title": "마을 안내",
@@ -253,7 +227,6 @@ SCENES = {
     ],
     "next": "market"
 },
-
 "market": {
     "icon": "🥖",
     "title": "마을 시장",
@@ -272,7 +245,6 @@ SCENES = {
     ],
     "next": "church"
 },
-
 "church": {
     "icon": "⛪",
     "title": "마을의 교회",
@@ -292,7 +264,6 @@ SCENES = {
     ],
     "next": "village"
 },
-
 "village": {
     "icon": "🏡",
     "title": "마을 골목",
@@ -315,7 +286,6 @@ SCENES = {
     ],
     "next": "night"
 },
-
 "night": {
     "icon": "🌙",
     "title": "늦은 밤",
@@ -331,7 +301,6 @@ SCENES = {
     ],
     "next": "second_choice"
 },
-
 "second_choice": {
     "icon": "🌙",
     "title": "불길한 기척",
@@ -343,7 +312,6 @@ SCENES = {
         ("② 괜찮아, 혼자 가보자.", "gameover")
     ]
 },
-
 "gameover": {
     "icon": "🕯️",
     "title": "GAME OVER",
@@ -359,7 +327,6 @@ SCENES = {
         ("나레이션", "다시 눈을 떴을 때, 그곳은 낯선 지하 감옥이었다.", True)
     ]
 },
-
 "home": {
     "icon": "🕯️",
     "title": "다시 만난 바실리오스",
@@ -382,7 +349,6 @@ SCENES = {
     "next": "next_day",
     "next_label": "다음 날 ▶"
 },
-
 "next_day": {
     "icon": "☀️",
     "title": "다음 날 아침",
@@ -397,7 +363,6 @@ SCENES = {
     ],
     "next": "captured"
 },
-
 "captured": {
     "icon": "⚠️",
     "title": "의문의 습격",
@@ -410,7 +375,6 @@ SCENES = {
     "next": "cell",
     "next_label": "……"
 },
-
 "cell": {
     "icon": "⛓️",
     "title": "지하 감옥",
@@ -424,7 +388,6 @@ SCENES = {
     ],
     "next": "whisper"
 },
-
 "whisper": {
     "icon": "🕯️",
     "title": "의문의 대화",
@@ -442,7 +405,6 @@ SCENES = {
     "next": "base_arrives",
     "next_label": "……"
 },
-
 "base_arrives": {
     "icon": "🕯️",
     "title": "예상치 못한 방문자",
@@ -464,7 +426,6 @@ SCENES = {
     ],
     "next": "reveal"
 },
-
 "reveal": {
     "icon": "🔍",
     "title": "바실리오스의 비밀",
@@ -484,7 +445,6 @@ SCENES = {
     ],
     "next": "encounter"
 },
-
 "encounter": {
     "icon": "⚠️",
     "title": "발각",
@@ -506,7 +466,6 @@ SCENES = {
     "next": "flashback",
     "next_label": "……"
 },
-
 "flashback": {
     "icon": "🌑",
     "title": "남겨진 사람",
@@ -538,7 +497,6 @@ SCENES = {
     "next": "rescue",
     "next_label": "……"
 },
-
 "rescue": {
     "icon": "🏃",
     "title": "이번에는",
@@ -559,7 +517,6 @@ SCENES = {
     "next": "forest",
     "next_label": "계속 달린다 ▶"
 },
-
 "forest": {
     "icon": "🌲",
     "title": "꿈만 같은 순간",
@@ -581,7 +538,6 @@ SCENES = {
     ],
     "next": "final_choice"
 },
-
 "final_choice": {
     "icon": "🌲",
     "title": "마지막 선택",
@@ -593,7 +549,6 @@ SCENES = {
         ("② 그러게요, 얼른 날이 어두워지기 전에 탈출해야겠어요.", "happy_ending")
     ]
 },
-
 "bad_ending": {
     "icon": "⛓️",
     "title": "다시 제자리로",
@@ -621,7 +576,6 @@ SCENES = {
         ("나레이션", "마을 전체에 종소리가 울려 퍼졌다.", True)
     ]
 },
-
 "happy_ending": {
     "icon": "🌅",
     "title": "탈출",
@@ -646,7 +600,6 @@ SCENES = {
     ],
     "next": "happy_ending_2"
 },
-
 "happy_ending_2": {
     "icon": "🌅",
     "title": "새로운 시작",
@@ -670,57 +623,38 @@ SCENES = {
         ("주인공", "그러게요."),
         ("나레이션", "마차는 계속해서 앞으로 나아갔다.\n\n우리가 어디에 도착하게 될지는 아직 알 수 없었다.\n\n하지만 적어도 이제는 뒤를 돌아볼 필요가 없었다.", True)
     ]
-}
-
-}
-
-
-# ==========================================
+}}# ==========================================
 # 게임 상태 초기화
 # ==========================================
-
 if "stage" not in st.session_state:
     st.session_state.stage = "intro"
-
 if "dialogue_index" not in st.session_state:
     st.session_state.dialogue_index = 0
-
-
 def move(stage):
     st.session_state.stage = stage
     st.session_state.dialogue_index = 0
     st.rerun()
-
-
 def restart():
     st.session_state.stage = "intro"
     st.session_state.dialogue_index = 0
     st.rerun()
-
-
 # ==========================================
 # 타이틀
 # ==========================================
-
 st.markdown("""
 <div class="game-header">
     <div class="game-title">THE LAST PRAYER</div>
     <div class="game-subtitle">A TALE OF FAITH AND BETRAYAL</div>
 </div>
-
 <div class="small-text">
     VISUAL NOVEL · MYSTERY · HORROR
 </div>
 """, unsafe_allow_html=True)
-
-
 # ==========================================
 # 현재 장면
 # ==========================================
-
 stage = st.session_state.stage
 data = SCENES[stage]
-
 st.markdown(f"""
 <div class="game-scene">
     <div class="scene-icon">{data['icon']}</div>
@@ -728,119 +662,79 @@ st.markdown(f"""
     <div class="scene-subtitle">{data['subtitle']}</div>
 </div>
 """, unsafe_allow_html=True)
-
-
 # ==========================================
 # 대사 한 줄씩 출력
 # ==========================================
-
 dialogues = data.get("dialogues", [])
 choices = data.get("choices", [])
-
 if dialogues:
-
     index = st.session_state.dialogue_index
-
     speaker, message, *extra = dialogues[index]
     narration = extra[0] if extra else False
-
     safe_message = html.escape(message)
-
     if narration:
-
         st.markdown(f"""
         <div class="dialogue-box">
             <div class="dialogue narration">{safe_message}</div>
         </div>
         """, unsafe_allow_html=True)
-
     else:
-
         safe_speaker = html.escape(speaker)
-
         st.markdown(f"""
         <div class="dialogue-box">
             <div class="speaker">{safe_speaker}</div>
             <div class="dialogue">{safe_message}</div>
         </div>
         """, unsafe_allow_html=True)
-
     # 대사 진행 표시
-
     st.markdown(
         f'<div class="small-text">{index + 1} / {len(dialogues)}</div>',
         unsafe_allow_html=True
     )
-
     st.progress((index + 1) / len(dialogues))
-
     # 다음 대사
-
     if index < len(dialogues) - 1:
-
         if st.button("▼ 다음", key=f"next_{stage}_{index}"):
-
             st.session_state.dialogue_index += 1
             st.rerun()
-
     # 마지막 대사
-
     else:
-
         if "ending" in data:
-
             st.markdown("---")
-
             st.markdown(
                 f'<div class="ending-title" style="color:{data["ending_color"]};">'
                 f'{data["ending"]}</div>',
                 unsafe_allow_html=True
             )
-
             st.markdown(
                 f'<div class="small-text">{data["ending_subtitle"]}</div>',
                 unsafe_allow_html=True
             )
-
             if st.button("↻ 처음부터 다시 시작"):
                 restart()
-
         elif data.get("next"):
-
             if st.button(data.get("next_label", "▼ 다음")):
                 move(data["next"])
-
-
 # ==========================================
 # 선택지
 # ==========================================
-
 if choices:
-
     st.markdown("---")
-
     st.markdown(
         f'<div class="choice-title">{data["question"]}</div>',
         unsafe_allow_html=True
     )
-
     st.markdown(
         f'<div class="choice-description">{data["description"]}</div>',
         unsafe_allow_html=True
     )
-
     for i, (label, destination) in enumerate(choices):
-
         if st.button(label, key=f"choice_{stage}_{i}"):
             move(destination)
-
-
 # ==========================================
 # 하단
 # ==========================================
-
 st.markdown("---")
-
 st.markdown(
     '<div class="small-text">THE LAST PRAYER · EST. 2026</div>',
     unsafe_allow_html=True
