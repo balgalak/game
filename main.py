@@ -14,7 +14,8 @@ st.set_page_config(
 # ==========================================
 
 BASE_DIR = Path(__file__).resolve().parent
-IMAGE_PATH = BASE_DIR / "images" / "village.png"
+
+IMAGE_PATH = BASE_DIR / "푸른 하늘 아래 중세 마을 광장.png"
 
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
@@ -844,5 +845,5 @@ if not IMAGE_PATH.is_file():
         "배경 이미지를 찾을 수 없습니다.\n\n"
         "GitHub 저장소에서 다음과 같이 파일이 배치되어 있는지 확인해 주세요.\n\n"
         "main.py\n"
-        "images/village.png"
+        "푸른 하늘 아래 중세 마을 광장.png"
     )
