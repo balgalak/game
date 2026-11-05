@@ -858,32 +858,32 @@ def restart():
 
 if not st.session_state.game_started:
 
-    st.markdown("""
-<div class="cover-screen">
-    <div class="cover-label">
-        AN ORIGINAL VISUAL NOVEL
-    </div>
+    st.html("""
+    <div class="cover-screen">
+        <div class="cover-label">
+            AN ORIGINAL VISUAL NOVEL
+        </div>
 
-    <div class="cover-title">
-        THE LAST PRAYER
-    </div>
+        <div class="cover-title">
+            THE LAST PRAYER
+        </div>
 
-    <div class="cover-subtitle">
-        A TALE OF FAITH AND BETRAYAL
-    </div>
+        <div class="cover-subtitle">
+            A TALE OF FAITH AND BETRAYAL
+        </div>
 
-    <div class="cover-description">
-        낯선 마을에서 시작된 새로운 생활.<br>
-        그리고 그곳에 숨겨진 불길한 진실.
-        <br><br>
-        당신은 마지막 기도를 마칠 수 있을까?
-    </div>
+        <div class="cover-description">
+            낯선 마을에서 시작된 새로운 생활.<br>
+            그리고 그곳에 숨겨진 불길한 진실.
+            <br><br>
+            당신은 마지막 기도를 마칠 수 있을까?
+        </div>
 
-    <div class="cover-footer">
-        VISUAL NOVEL · MYSTERY · HORROR
+        <div class="cover-footer">
+            VISUAL NOVEL · MYSTERY · HORROR
+        </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """)
 
     left, center, right = st.columns([1, 2, 1])
 
