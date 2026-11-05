@@ -162,55 +162,6 @@ header[data-testid="stHeader"] {{
     margin-top: 8px;
 }}
 
-# ==========================================
-# 게임 표지 화면
-# ==========================================
-
-if not st.session_state.game_started:
-
-    st.markdown("""
-<div class="cover-screen">
-    <div class="cover-label">
-        AN ORIGINAL VISUAL NOVEL
-    </div>
-
-    <div class="cover-title">
-        THE LAST PRAYER
-    </div>
-
-    <div class="cover-subtitle">
-        A TALE OF FAITH AND BETRAYAL
-    </div>
-
-    <div class="cover-description">
-        낯선 마을에서 시작된 새로운 생활.<br>
-        그리고 그곳에 숨겨진 불길한 진실.
-        <br><br>
-        당신은 마지막 기도를 마칠 수 있을까?
-    </div>
-
-    <div class="cover-footer">
-        VISUAL NOVEL · MYSTERY · HORROR
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-    left, center, right = st.columns([1, 2, 1])
-
-    with center:
-        if st.button("✦ NEW GAME ✦", key="start_game"):
-            st.session_state.game_started = True
-            st.session_state.stage = "intro"
-            st.session_state.dialogue_index = 0
-            st.rerun()
-
-    st.markdown(
-        '<div class="small-text">THE LAST PRAYER · EST. 2026</div>',
-        unsafe_allow_html=True
-    )
-
-    st.stop()
-
 /* ==========================================
    기본 대사창
 ========================================== */
@@ -335,6 +286,24 @@ if not st.session_state.game_started:
     font-size: 35px;
     letter-spacing: 5px;
     padding: 25px 0;
+}}
+
+div.stButton > button {{
+    width: 100%;
+    background: rgba(53, 70, 56, 0.95);
+    color: #e9e3d2;
+    border: 1px solid #7a876d;
+    border-radius: 3px;
+    padding: 13px;
+    font-family: 'Gowun Batang', serif;
+    font-size: 15px;
+    transition: 0.2s;
+}}
+
+div.stButton > button:hover {{
+    background: #53634c;
+    color: white;
+    border-color: #d1c4a3;
 }}
 
 hr {{
@@ -827,9 +796,6 @@ if "stage" not in st.session_state:
 if "dialogue_index" not in st.session_state:
     st.session_state.dialogue_index = 0
 
-if "game_started" not in st.session_state:
-    st.session_state.game_started = False
-
 
 def move(stage):
     st.session_state.stage = stage
@@ -840,61 +806,7 @@ def move(stage):
 def restart():
     st.session_state.stage = "intro"
     st.session_state.dialogue_index = 0
-    st.session_state.game_started = True
     st.rerun()
-
-
-# ==========================================
-# 게임 표지 화면
-# ==========================================
-
-if not st.session_state.game_started:
-
-    st.markdown("""
-    <div class="cover-screen">
-
-        <div class="cover-label">
-            AN ORIGINAL VISUAL NOVEL
-        </div>
-
-        <div class="cover-title">
-            THE LAST PRAYER
-        </div>
-
-        <div class="cover-subtitle">
-            A TALE OF FAITH AND BETRAYAL
-        </div>
-
-        <div class="cover-description">
-            낯선 마을에서 시작된 새로운 생활.<br>
-            그리고 그곳에 숨겨진 불길한 진실.
-            <br><br>
-            당신은 마지막 기도를 마칠 수 있을까?
-        </div>
-
-        <div class="cover-footer">
-            VISUAL NOVEL · MYSTERY · HORROR
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 시작 버튼 가운데 배치
-    left, center, right = st.columns([1, 2, 1])
-
-    with center:
-        if st.button("✦ NEW GAME ✦", key="start_game"):
-            st.session_state.game_started = True
-            st.session_state.stage = "intro"
-            st.session_state.dialogue_index = 0
-            st.rerun()
-
-    st.markdown(
-        '<div class="small-text">THE LAST PRAYER · EST. 2026</div>',
-        unsafe_allow_html=True
-    )
-
-    st.stop()
 
 
 # ==========================================
