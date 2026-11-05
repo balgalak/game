@@ -35,6 +35,9 @@ FOREST_IMAGE_PATH = BASE_DIR / "images" / "안개 속 신비로운 숲길.png"
 # 탈출 배경
 HAPPY_ENDING_IMAGE_PATH = BASE_DIR / "images" / "숲길 끝의 신비로운 빛.png"
 
+# 새로운 시작 배경
+HAPPY_ENDING_2_IMAGE_PATH = BASE_DIR / "images" / "달빛 안개 숲길의 마차 여행.png"
+
 
 # 이미지 캐시
 @st.cache_data
@@ -68,6 +71,9 @@ elif current_stage in ["forest", "final_choice"]:
 
 elif current_stage == "happy_ending":
     IMAGE_PATH = HAPPY_ENDING_IMAGE_PATH
+
+elif current_stage == "happy_ending_2":
+    IMAGE_PATH = HAPPY_ENDING_2_IMAGE_PATH
 
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
