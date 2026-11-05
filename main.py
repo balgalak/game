@@ -748,6 +748,8 @@ CHARACTER_IMAGES = {
     "신도": BELIEVER_IMAGE_PATH,
     "의문의 인물": MYSTERIOUS_IMAGE_PATH,
     "???": MYSTERIOUS_IMAGE_PATH
+    "주인공": OWNER_IMAGE_PATH
+}
 }
 
 if dialogues:
