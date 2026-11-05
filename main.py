@@ -28,10 +28,10 @@ current_stage = st.session_state.get("stage", "intro")
 if current_stage == "market":
     IMAGE_PATH = MARKET_IMAGE_PATH
 
-elif current_stage == "church":
+elif current_stage in ["church", "next_day"]:
     IMAGE_PATH = CHURCH_IMAGE_PATH
 
-elif current_stage in ["night", "second_choice", "gameover", "home", "next_day"]:
+elif current_stage in ["night", "second_choice", "gameover", "home"]:
     IMAGE_PATH = NIGHT_IMAGE_PATH
 
 else:
