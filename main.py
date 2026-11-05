@@ -31,12 +31,11 @@ if current_stage == "market":
 elif current_stage == "church":
     IMAGE_PATH = CHURCH_IMAGE_PATH
 
-elif current_stage in ["night", "second_choice", "gameover"]:
+elif current_stage in ["night", "second_choice", "gameover", "home"]:
     IMAGE_PATH = NIGHT_IMAGE_PATH
 
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
-
 # 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
