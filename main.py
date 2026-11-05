@@ -14,23 +14,29 @@ st.set_page_config(
 # 배경 이미지
 # ==========================================
 
-IMAGE_PATH = Path("images/village.png")
 
-if IMAGE_PATH.exists():
+# 배경 이미지
+BASE_DIR = Path(__file__).resolve().parent
+IMAGE_PATH = BASE_DIR / "images" / "village.png"
+
+if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
         encoded_image = base64.b64encode(f.read()).decode()
+
     background_css = f"""
-        background-image:
-        linear-gradient(rgba(13, 22, 16, 0.65),
-                        rgba(13, 22, 16, 0.85)),
+    background-image:
+        linear-gradient(
+            rgba(13, 22, 16, 0.45),
+            rgba(13, 22, 16, 0.65)
+        ),
         url("data:image/png;base64,{encoded_image}");
     """
 else:
     background_css = """
-        background: radial-gradient(
-            ellipse at top, #354638, #202a24 55%, #151b18
-        );
+    background: #151b18;
     """
+    st.warning(f"배경 이미지를 찾을 수 없습니다: {IMAGE_PATH}")
+
 
 # ==========================================
 # 디자인
