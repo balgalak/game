@@ -901,8 +901,6 @@ st.markdown(
 
 if not IMAGE_PATH.is_file():
     st.error(
-        "배경 이미지를 찾을 수 없습니다.\n\n"
-        "GitHub 저장소에서 다음과 같이 파일이 배치되어 있는지 확인해 주세요.\n\n"
-        "main.py\n"
-        "푸른 하늘 아래 중세 마을 광장.png"
+        f"배경 이미지를 찾을 수 없습니다: {IMAGE_PATH.name}\n\n"
+        "GitHub 저장소의 images 폴더에 이미지가 있는지 확인해 주세요."
     )
