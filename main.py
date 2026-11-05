@@ -32,7 +32,7 @@ if current_stage == "market":
 elif current_stage in ["church", "next_day"]:
     IMAGE_PATH = CHURCH_IMAGE_PATH
 
-elif current_stage in ["cell", "whisper", "base_arrives"]:
+elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
 
 elif current_stage in ["night", "second_choice", "gameover", "home"]:
@@ -40,7 +40,6 @@ elif current_stage in ["night", "second_choice", "gameover", "home"]:
 
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
-
 # 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
