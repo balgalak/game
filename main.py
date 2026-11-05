@@ -32,6 +32,9 @@ if current_stage == "market":
 elif current_stage in ["church", "next_day"]:
     IMAGE_PATH = CHURCH_IMAGE_PATH
 
+elif current_stage == "encounter":
+    IMAGE_PATH = ENCOUNTER_IMAGE_PATH
+
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
 
