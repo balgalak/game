@@ -746,10 +746,16 @@ KAIN_IMAGE_PATH = (
     "ChatGPT 이미지 2026년 11월 5일 오후 04_41_50.png"
 )
 
+BELIEVER_IMAGE_PATH = (
+    BASE_DIR / "images" /
+    "ChatGPT 이미지 2026년 11월 5일 오후 04_51_46.png"
+)
+
 # 캐릭터별 이미지 연결
 CHARACTER_IMAGES = {
     "바실리오스": BASILIOS_IMAGE_PATH,
-    "카인": KAIN_IMAGE_PATH
+    "카인": KAIN_IMAGE_PATH,
+    "신도": BELIEVER_IMAGE_PATH
 }
 
 if dialogues:
@@ -775,7 +781,6 @@ if dialogues:
 
         safe_speaker = html.escape(speaker)
 
-        # 현재 대사 인물의 이미지 가져오기
         character_image = CHARACTER_IMAGES.get(speaker)
 
         # 캐릭터 이미지가 존재하는 경우
