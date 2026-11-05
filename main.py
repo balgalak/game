@@ -23,6 +23,9 @@ NIGHT_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래의 판타지 마을 골�
 CELL_IMAGE_PATH = BASE_DIR / "images" / "차가운 빛과 횃불의 감옥 폐허.png"
 ENCOUNTER_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
 
+# 남겨진 사람 배경
+FLASHBACK_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래 고딕 성당 마을 광장.png"
+
 
 # 이미지 캐시
 @st.cache_data
@@ -45,6 +48,9 @@ elif current_stage in ["church", "next_day"]:
 elif current_stage == "encounter":
     IMAGE_PATH = ENCOUNTER_IMAGE_PATH
 
+elif current_stage == "flashback":
+    IMAGE_PATH = FLASHBACK_IMAGE_PATH
+
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
 
@@ -54,6 +60,21 @@ elif current_stage in ["night", "second_choice", "gameover", "home"]:
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
 
+
+# 배경 이미지 불러오기
+if IMAGE_PATH.is_file():
+    encoded_image = load_background_image(str(IMAGE_PATH))
+
+    background_css = f"""
+    background-image:
+        linear-gradient(
+            rgba(13, 22, 16, 0.35),
+            rgba(13, 22, 16, 0.50)
+        ),
+        url("data:image/png;base64,{encoded_image}");
+    """
+else:
+    background_css = "background: #151b18;"
 
 # 배경 이미지 불러오기
 if IMAGE_PATH.is_file():
