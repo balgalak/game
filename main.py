@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 # 장소별 배경 이미지
 VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
-MARKET_IMAGE_PATH = BASE_DIR / "images" / "컬러풀 판타지 시장 광장.png"
+MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광장.png"
 
 # 현재 장소에 따라 배경 이미지 선택
 current_stage = st.session_state.get("stage", "intro")
