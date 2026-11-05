@@ -29,7 +29,7 @@ FLASHBACK_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래 고딕 성당 마을
 # 이번에는 배경
 RESCUE_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
 
-# 꿈만 같은 순간 배경
+# 숲 배경
 FOREST_IMAGE_PATH = BASE_DIR / "images" / "안개 속 신비로운 숲길.png"
 
 
@@ -60,7 +60,7 @@ elif current_stage == "flashback":
 elif current_stage == "rescue":
     IMAGE_PATH = RESCUE_IMAGE_PATH
 
-elif current_stage == "forest":
+elif current_stage in ["forest", "final_choice"]:
     IMAGE_PATH = FOREST_IMAGE_PATH
 
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
