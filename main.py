@@ -10,85 +10,62 @@ st.set_page_config(
 )
 
 # ==========================================
-# 배경 이미지
+# 경로 및 배경 이미지
 # ==========================================
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# 장소별 배경 이미지 경로
 VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
 MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광장.png"
 CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른 첨탑의 고딕 성당 마을.png"
 NIGHT_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래의 판타지 마을 골목.png"
 CELL_IMAGE_PATH = BASE_DIR / "images" / "차가운 빛과 횃불의 감옥 폐허.png"
 ENCOUNTER_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
-
-# 남겨진 사람 배경
 FLASHBACK_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래 고딕 성당 마을 광장.png"
-
-# 이번에는 배경
 RESCUE_IMAGE_PATH = BASE_DIR / "images" / "안개 낀 중세 감옥 복도.png"
-
-# 숲 배경
 FOREST_IMAGE_PATH = BASE_DIR / "images" / "안개 속 신비로운 숲길.png"
-
-# 탈출 배경
 HAPPY_ENDING_IMAGE_PATH = BASE_DIR / "images" / "숲길 끝의 신비로운 빛.png"
-
-# 새로운 시작 배경
 HAPPY_ENDING_2_IMAGE_PATH = BASE_DIR / "images" / "달빛 안개 숲길의 마차 여행.png"
 
 
-# 이미지 캐시
 @st.cache_data
 def load_background_image(image_path):
     with open(image_path, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
-# 현재 장소 확인
+# ==========================================
+# 현재 장소에 따른 배경 이미지 선택
+# ==========================================
+
 current_stage = st.session_state.get("stage", "intro")
 
-
-# 장소에 따라 배경 이미지 선택
 if current_stage == "market":
     IMAGE_PATH = MARKET_IMAGE_PATH
-
 elif current_stage in ["church", "next_day"]:
     IMAGE_PATH = CHURCH_IMAGE_PATH
-
 elif current_stage == "encounter":
     IMAGE_PATH = ENCOUNTER_IMAGE_PATH
-
 elif current_stage == "flashback":
     IMAGE_PATH = FLASHBACK_IMAGE_PATH
-
 elif current_stage == "rescue":
     IMAGE_PATH = RESCUE_IMAGE_PATH
-
 elif current_stage in ["forest", "final_choice"]:
     IMAGE_PATH = FOREST_IMAGE_PATH
-
 elif current_stage == "happy_ending":
     IMAGE_PATH = HAPPY_ENDING_IMAGE_PATH
-
 elif current_stage == "happy_ending_2":
     IMAGE_PATH = HAPPY_ENDING_2_IMAGE_PATH
-
 elif current_stage == "bad_ending":
     IMAGE_PATH = CELL_IMAGE_PATH
-
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
-
 elif current_stage in ["night", "second_choice", "gameover", "home"]:
     IMAGE_PATH = NIGHT_IMAGE_PATH
-
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
 
 
-# 배경 이미지 불러오기
 if IMAGE_PATH.is_file():
     encoded_image = load_background_image(str(IMAGE_PATH))
 
@@ -102,23 +79,10 @@ if IMAGE_PATH.is_file():
     """
 else:
     background_css = "background: #151b18;"
-# 이미지 불러오기
-if IMAGE_PATH.is_file():
-    with open(IMAGE_PATH, "rb") as f:
-        encoded_image = base64.b64encode(f.read()).decode("utf-8")
 
-    background_css = f"""
-    background-image:
-        linear-gradient(
-            rgba(13, 22, 16, 0.35),
-            rgba(13, 22, 16, 0.50)
-        ),
-        url("data:image/png;base64,{encoded_image}");
-    """
-else:
-    background_css = "background: #151b18;"
+
 # ==========================================
-# 디자인
+# 디자인 및 CSS
 # ==========================================
 
 st.markdown(f"""
@@ -198,6 +162,10 @@ header[data-testid="stHeader"] {{
     margin-top: 8px;
 }}
 
+/* ==========================================
+   기본 대사창
+========================================== */
+
 .dialogue-box {{
     background: rgba(13, 19, 15, 0.94);
     border: 1px solid #68745e;
@@ -212,25 +180,86 @@ header[data-testid="stHeader"] {{
 }}
 
 .speaker {{
-    color: #c4a77c;
+    color: #e9e3d2;
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 15px;
 }}
 
 .dialogue {{
-    color: #e9e3d2;
+    color: #ffffff;
     font-size: 17px;
     line-height: 2;
     white-space: pre-wrap;
 }}
 
+/* 바실리오스 - 주황색 */
+
+.dialogue-box.basilios {{
+    background: rgba(125, 72, 35, 0.96);
+    border-color: #d69a5b;
+}}
+
+/* 어린 바실리오스 - 주황색 */
+
+.dialogue-box.young-basilios {{
+    background: rgba(125, 72, 35, 0.96);
+    border-color: #d69a5b;
+}}
+
+/* 카인 - 검은색 */
+
+.dialogue-box.kain {{
+    background: rgba(12, 12, 14, 0.97);
+    border-color: #77747a;
+}}
+
+/* 신도 - 초록색 */
+
+.dialogue-box.believer {{
+    background: rgba(35, 76, 48, 0.96);
+    border-color: #759477;
+}}
+
+/* ??? 및 의문의 인물 - 회색 */
+
+.dialogue-box.mysterious {{
+    background: rgba(75, 77, 82, 0.96);
+    border-color: #a1a3a8;
+}}
+
+/* 주인공 - 하늘색 */
+
+.dialogue-box.protagonist {{
+    background: rgba(55, 105, 135, 0.96);
+    border-color: #91c6e0;
+}}
+
+/* 나레이션 - 흰색 */
+
+.dialogue-box.narration-box {{
+    background: rgba(235, 233, 222, 0.97);
+    border-color: #ffffff;
+}}
+
+.dialogue-box.narration-box .dialogue {{
+    color: #292b27;
+}}
+
+.dialogue-box.narration-box .speaker {{
+    color: #292b27;
+}}
+
 .narration {{
-    color: #aaa997;
+    color: #292b27;
     font-size: 15px;
     line-height: 2.1;
     font-style: italic;
 }}
+
+/* ==========================================
+   선택지 및 기타 디자인
+========================================== */
 
 .choice-title {{
     text-align: center;
@@ -813,13 +842,9 @@ st.markdown(f"""
 
 
 # ==========================================
-# 대사 한 줄씩 출력
+# 캐릭터 이미지 경로
 # ==========================================
 
-dialogues = data.get("dialogues", [])
-choices = data.get("choices", [])
-
-# 캐릭터 이미지 경로
 BASILIOS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_17_00.png"
 KAIN_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_41_50.png"
 BELIEVER_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_51_46.png"
@@ -827,7 +852,7 @@ MYSTERIOUS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5
 PROTAGONIST_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_19_21.png"
 YOUNG_BASILIOS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_38_59.png"
 
-# 캐릭터별 이미지 연결
+
 CHARACTER_IMAGES = {
     "바실리오스": BASILIOS_IMAGE_PATH,
     "카인": KAIN_IMAGE_PATH,
@@ -838,6 +863,29 @@ CHARACTER_IMAGES = {
     "어린 바실리오스": YOUNG_BASILIOS_IMAGE_PATH
 }
 
+
+# ==========================================
+# 캐릭터별 대사창 색상
+# ==========================================
+
+SPEAKER_CLASSES = {
+    "바실리오스": "basilios",
+    "어린 바실리오스": "young-basilios",
+    "카인": "kain",
+    "신도": "believer",
+    "???": "mysterious",
+    "의문의 인물": "mysterious",
+    "주인공": "protagonist"
+}
+
+
+# ==========================================
+# 대사 한 줄씩 출력
+# ==========================================
+
+dialogues = data.get("dialogues", [])
+choices = data.get("choices", [])
+
 if dialogues:
 
     index = st.session_state.dialogue_index
@@ -847,11 +895,11 @@ if dialogues:
 
     safe_message = html.escape(message)
 
-    # 나레이션
+    # 나레이션 대사창
     if narration:
 
         st.markdown(f"""
-        <div class="dialogue-box">
+        <div class="dialogue-box narration-box">
             <div class="dialogue narration">{safe_message}</div>
         </div>
         """, unsafe_allow_html=True)
@@ -859,9 +907,13 @@ if dialogues:
     else:
 
         safe_speaker = html.escape(speaker)
+
+        # 캐릭터별 색상 클래스
+        speaker_class = SPEAKER_CLASSES.get(speaker, "")
+
+        # 캐릭터 이미지
         character_image = CHARACTER_IMAGES.get(speaker)
 
-        # 캐릭터 이미지 표시
         if character_image and character_image.is_file():
 
             character_col, dialogue_col = st.columns([1, 2])
@@ -871,21 +923,22 @@ if dialogues:
                     "<div style='height: 15px;'></div>",
                     unsafe_allow_html=True
                 )
+
                 st.image(str(character_image), width=260)
 
             with dialogue_col:
                 st.markdown(f"""
-                <div class="dialogue-box">
+                <div class="dialogue-box {speaker_class}">
                     <div class="speaker">{safe_speaker}</div>
                     <div class="dialogue">{safe_message}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
-        # 이미지가 없는 인물
+        # 캐릭터 이미지가 없는 경우
         else:
 
             st.markdown(f"""
-            <div class="dialogue-box">
+            <div class="dialogue-box {speaker_class}">
                 <div class="speaker">{safe_speaker}</div>
                 <div class="dialogue">{safe_message}</div>
             </div>
@@ -899,7 +952,7 @@ if dialogues:
 
     st.progress((index + 1) / len(dialogues))
 
-    # 다음 대사
+    # 다음 대사 버튼
     if index < len(dialogues) - 1:
 
         if st.button("▼ 다음", key=f"next_{stage}_{index}"):
@@ -932,6 +985,8 @@ if dialogues:
 
             if st.button(data.get("next_label", "▼ 다음")):
                 move(data["next"])
+
+
 # ==========================================
 # 선택지
 # ==========================================
