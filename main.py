@@ -20,6 +20,7 @@ VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 �
 MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광장.png"
 CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른 첨탑의 고딕 성당 마을.png"
 NIGHT_IMAGE_PATH = BASE_DIR / "images" / "달빛 아래의 판타지 마을 골목.png"
+CELL_IMAGE_PATH = BASE_DIR / "images" / "차가운 빛과 횃불의 감옥 폐허.png"
 
 # 현재 장소 확인
 current_stage = st.session_state.get("stage", "intro")
@@ -39,6 +40,7 @@ elif current_stage in ["night", "second_choice", "gameover", "home"]:
 
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
+
 # 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
@@ -52,7 +54,6 @@ if IMAGE_PATH.is_file():
         ),
         url("data:image/png;base64,{encoded_image}");
     """
-
 else:
     background_css = "background: #151b18;"
 # ==========================================
