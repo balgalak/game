@@ -741,6 +741,7 @@ KAIN_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 �
 BELIEVER_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_51_46.png"
 MYSTERIOUS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_00_31.png"
 PROTAGONIST_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_19_21.png"
+YOUNG_BASILIOS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_38_59.png"
 
 # 캐릭터별 이미지 연결
 CHARACTER_IMAGES = {
@@ -750,7 +751,7 @@ CHARACTER_IMAGES = {
     "의문의 인물": MYSTERIOUS_IMAGE_PATH,
     "???": MYSTERIOUS_IMAGE_PATH,
     "주인공": PROTAGONIST_IMAGE_PATH,
-    "어린 바실리오스": PROTAGONIST_IMAGE_PATH
+    "어린 바실리오스": YOUNG_BASILIOS_IMAGE_PATH
 }
 
 if dialogues:
