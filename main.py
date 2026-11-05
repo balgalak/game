@@ -15,7 +15,7 @@ PROJECT_DIR = Path(__file__).resolve().parent
 IMAGE_CANDIDATES = [
     PROJECT_DIR / "images" / "village.png",
     PROJECT_DIR / "village.png",
-]IMAGE_PATH = next((path for path in IMAGE_CANDIDATES if path.is_file()), None)
+IMAGE_PATH = next((path for path in IMAGE_CANDIDATES if path.is_file()), None)
 if IMAGE_PATH is not None:
     encoded_image = base64.b64encode(IMAGE_PATH.read_bytes()).decode("utf-8")
     background_css = f"""
