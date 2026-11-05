@@ -735,6 +735,12 @@ st.markdown(f"""
 dialogues = data.get("dialogues", [])
 choices = data.get("choices", [])
 
+# 바실리오스 이미지 경로
+BASILIOS_IMAGE_PATH = (
+    BASE_DIR / "images" /
+    "ChatGPT 이미지 2026년 11월 5일 오후 04_17_00.png"
+)
+
 if dialogues:
 
     index = st.session_state.dialogue_index
@@ -745,6 +751,7 @@ if dialogues:
     safe_message = html.escape(message)
 
     if narration:
+
         st.markdown(f"""
         <div class="dialogue-box">
             <div class="dialogue narration">{safe_message}</div>
@@ -752,14 +759,41 @@ if dialogues:
         """, unsafe_allow_html=True)
 
     else:
+
         safe_speaker = html.escape(speaker)
 
-        st.markdown(f"""
-        <div class="dialogue-box">
-            <div class="speaker">{safe_speaker}</div>
-            <div class="dialogue">{safe_message}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        # 바실리오스가 말하는 경우
+        if speaker == "바실리오스" and BASILIOS_IMAGE_PATH.is_file():
+
+            character_col, dialogue_col = st.columns([1, 2])
+
+            with character_col:
+                st.markdown(
+                    "<div style='height: 15px;'></div>",
+                    unsafe_allow_html=True
+                )
+                st.image(
+                    str(BASILIOS_IMAGE_PATH),
+                    width=260
+                )
+
+            with dialogue_col:
+                st.markdown(f"""
+                <div class="dialogue-box">
+                    <div class="speaker">{safe_speaker}</div>
+                    <div class="dialogue">{safe_message}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # 다른 인물이 말하는 경우
+        else:
+
+            st.markdown(f"""
+            <div class="dialogue-box">
+                <div class="speaker">{safe_speaker}</div>
+                <div class="dialogue">{safe_message}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown(
         f'<div class="small-text">{index + 1} / {len(dialogues)}</div>',
@@ -798,7 +832,6 @@ if dialogues:
 
             if st.button(data.get("next_label", "▼ 다음")):
                 move(data["next"])
-
 
 # ==========================================
 # 선택지
