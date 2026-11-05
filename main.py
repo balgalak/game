@@ -31,7 +31,7 @@ if current_stage == "market":
 elif current_stage == "church":
     IMAGE_PATH = CHURCH_IMAGE_PATH
 
-elif current_stage == "night":
+elif current_stage in ["night", "ominous"]:
     IMAGE_PATH = NIGHT_IMAGE_PATH
 
 else:
