@@ -15,19 +15,25 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# 장소별 배경 이미지
+# 장소별 배경 이미지 경로
 VILLAGE_IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
 MARKET_IMAGE_PATH = BASE_DIR / "images" / "화려한 중세 판타지 시장 광장.png"
+CHURCH_IMAGE_PATH = BASE_DIR / "images" / "푸른첨탑의 대성당 대성당.png"
 
-# 현재 장소에 따라 배경 이미지 선택
+# 현재 장소 확인
 current_stage = st.session_state.get("stage", "intro")
 
+# 장소에 따라 배경 이미지 선택
 if current_stage == "market":
     IMAGE_PATH = MARKET_IMAGE_PATH
+
+elif current_stage == "church":
+    IMAGE_PATH = CHURCH_IMAGE_PATH
+
 else:
     IMAGE_PATH = VILLAGE_IMAGE_PATH
 
-# 배경 이미지 불러오기
+# 이미지 불러오기
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
         encoded_image = base64.b64encode(f.read()).decode("utf-8")
@@ -40,6 +46,7 @@ if IMAGE_PATH.is_file():
         ),
         url("data:image/png;base64,{encoded_image}");
     """
+
 else:
     background_css = "background: #151b18;"
 
