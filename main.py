@@ -15,7 +15,7 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 
-IMAGE_PATH = BASE_DIR / "푸른 하늘 아래 중세 마을 광장.png"
+IMAGE_PATH = BASE_DIR / "images" / "푸른 하늘 아래 중세 마을 광장.png"
 
 if IMAGE_PATH.is_file():
     with open(IMAGE_PATH, "rb") as f:
