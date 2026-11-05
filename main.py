@@ -736,32 +736,18 @@ dialogues = data.get("dialogues", [])
 choices = data.get("choices", [])
 
 # 캐릭터 이미지 경로
-BASILIOS_IMAGE_PATH = (
-    BASE_DIR / "images" /
-    "ChatGPT 이미지 2026년 11월 5일 오후 04_17_00.png"
-)
-
-KAIN_IMAGE_PATH = (
-    BASE_DIR / "images" /
-    "ChatGPT 이미지 2026년 11월 5일 오후 04_41_50.png"
-)
-
-BELIEVER_IMAGE_PATH = (
-    BASE_DIR / "images" /
-    "ChatGPT 이미지 2026년 11월 5일 오후 04_51_46.png"
-)
-
-MYSTERIOUS_IMAGE_PATH = (
-    BASE_DIR / "images" /
-    "ChatGPT 이미지 2026년 11월 5일 오후 05_00_31.png"
-)
+BASILIOS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_17_00.png"
+KAIN_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_41_50.png"
+BELIEVER_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 04_51_46.png"
+MYSTERIOUS_IMAGE_PATH = BASE_DIR / "images" / "ChatGPT 이미지 2026년 11월 5일 오후 05_00_31.png"
 
 # 캐릭터별 이미지 연결
 CHARACTER_IMAGES = {
     "바실리오스": BASILIOS_IMAGE_PATH,
     "카인": KAIN_IMAGE_PATH,
     "신도": BELIEVER_IMAGE_PATH,
-    "의문의 인물": MYSTERIOUS_IMAGE_PATH
+    "의문의 인물": MYSTERIOUS_IMAGE_PATH,
+    "???": MYSTERIOUS_IMAGE_PATH
 }
 
 if dialogues:
@@ -782,32 +768,24 @@ if dialogues:
         </div>
         """, unsafe_allow_html=True)
 
-    # 캐릭터 대사
     else:
 
         safe_speaker = html.escape(speaker)
-
         character_image = CHARACTER_IMAGES.get(speaker)
 
-        # 캐릭터 이미지가 존재하는 경우
+        # 캐릭터 이미지 표시
         if character_image and character_image.is_file():
 
             character_col, dialogue_col = st.columns([1, 2])
 
             with character_col:
-
                 st.markdown(
                     "<div style='height: 15px;'></div>",
                     unsafe_allow_html=True
                 )
-
-                st.image(
-                    str(character_image),
-                    width=260
-                )
+                st.image(str(character_image), width=260)
 
             with dialogue_col:
-
                 st.markdown(f"""
                 <div class="dialogue-box">
                     <div class="speaker">{safe_speaker}</div>
