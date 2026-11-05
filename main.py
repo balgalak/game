@@ -75,6 +75,9 @@ elif current_stage == "happy_ending":
 elif current_stage == "happy_ending_2":
     IMAGE_PATH = HAPPY_ENDING_2_IMAGE_PATH
 
+elif current_stage == "bad_ending":
+    IMAGE_PATH = CELL_IMAGE_PATH
+
 elif current_stage in ["cell", "whisper", "base_arrives", "reveal"]:
     IMAGE_PATH = CELL_IMAGE_PATH
 
