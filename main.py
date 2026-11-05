@@ -163,7 +163,67 @@ header[data-testid="stHeader"] {{
 }}
 
 /* ==========================================
-   기본 대사창
+   게임 표지 화면
+========================================== */
+
+.cover-screen {{
+    min-height: 570px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(
+        rgba(8, 17, 12, 0.25),
+        rgba(8, 17, 12, 0.72)
+    );
+    border: 1px solid rgba(210, 207, 180, 0.45);
+    padding: 40px 20px;
+    margin-top: 20px;
+    box-sizing: border-box;
+}}
+
+.cover-label {{
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #d0c9a9;
+    margin-bottom: 35px;
+}}
+
+.cover-title {{
+    font-family: 'Noto Serif KR', serif;
+    font-size: 46px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    color: #f0ead8;
+    text-shadow: 3px 3px 12px #000;
+    margin-bottom: 15px;
+}}
+
+.cover-subtitle {{
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #d5d0b8;
+    margin-bottom: 75px;
+}}
+
+.cover-description {{
+    font-size: 14px;
+    line-height: 2.2;
+    color: #e5dfcb;
+    text-shadow: 1px 1px 5px #000;
+    margin-bottom: 30px;
+}}
+
+.cover-footer {{
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #c1c5ad;
+    margin-top: 30px;
+}}
+
+/* ==========================================
+   대사창
 ========================================== */
 
 .dialogue-box {{
@@ -193,59 +253,38 @@ header[data-testid="stHeader"] {{
     white-space: pre-wrap;
 }}
 
-/* 바실리오스 - 주황색 */
-
-.dialogue-box.basilios {{
-    background: rgba(125, 72, 35, 0.96);
-    border-color: #d69a5b;
-}}
-
-/* 어린 바실리오스 - 주황색 */
-
+.dialogue-box.basilios,
 .dialogue-box.young-basilios {{
     background: rgba(125, 72, 35, 0.96);
     border-color: #d69a5b;
 }}
-
-/* 카인 - 검은색 */
 
 .dialogue-box.kain {{
     background: rgba(12, 12, 14, 0.97);
     border-color: #77747a;
 }}
 
-/* 신도 - 초록색 */
-
 .dialogue-box.believer {{
     background: rgba(35, 76, 48, 0.96);
     border-color: #759477;
 }}
-
-/* ??? 및 의문의 인물 - 회색 */
 
 .dialogue-box.mysterious {{
     background: rgba(75, 77, 82, 0.96);
     border-color: #a1a3a8;
 }}
 
-/* 주인공 - 하늘색 */
-
 .dialogue-box.protagonist {{
     background: rgba(55, 105, 135, 0.96);
     border-color: #91c6e0;
 }}
-
-/* 나레이션 - 흰색 */
 
 .dialogue-box.narration-box {{
     background: rgba(235, 233, 222, 0.97);
     border-color: #ffffff;
 }}
 
-.dialogue-box.narration-box .dialogue {{
-    color: #292b27;
-}}
-
+.dialogue-box.narration-box .dialogue,
 .dialogue-box.narration-box .speaker {{
     color: #292b27;
 }}
@@ -796,6 +835,9 @@ if "stage" not in st.session_state:
 if "dialogue_index" not in st.session_state:
     st.session_state.dialogue_index = 0
 
+if "game_started" not in st.session_state:
+    st.session_state.game_started = False
+
 
 def move(stage):
     st.session_state.stage = stage
@@ -806,11 +848,57 @@ def move(stage):
 def restart():
     st.session_state.stage = "intro"
     st.session_state.dialogue_index = 0
+    st.session_state.game_started = True
     st.rerun()
 
 
 # ==========================================
-# 타이틀
+# 게임 표지 화면
+# ==========================================
+
+if not st.session_state.game_started:
+
+    st.markdown("""
+<div class="cover-screen">
+    <div class="cover-label">
+        AN ORIGINAL VISUAL NOVEL
+    </div>
+
+    <div class="cover-title">
+        THE LAST PRAYER
+    </div>
+
+    <div class="cover-subtitle">
+        A TALE OF FAITH AND BETRAYAL
+    </div>
+
+    <div class="cover-description">
+        낯선 마을에서 시작된 새로운 생활.<br>
+        그리고 그곳에 숨겨진 불길한 진실.
+        <br><br>
+        당신은 마지막 기도를 마칠 수 있을까?
+    </div>
+
+    <div class="cover-footer">
+        VISUAL NOVEL · MYSTERY · HORROR
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+    left, center, right = st.columns([1, 2, 1])
+
+    with center:
+        if st.button("✦ NEW GAME ✦", key="start_game"):
+            st.session_state.game_started = True
+            st.session_state.stage = "intro"
+            st.session_state.dialogue_index = 0
+            st.rerun()
+
+    st.stop()
+
+
+# ==========================================
+# 게임 타이틀
 # ==========================================
 
 st.markdown("""
@@ -895,23 +983,18 @@ if dialogues:
 
     safe_message = html.escape(message)
 
-    # 나레이션 대사창
     if narration:
 
         st.markdown(f"""
-        <div class="dialogue-box narration-box">
-            <div class="dialogue narration">{safe_message}</div>
-        </div>
-        """, unsafe_allow_html=True)
+<div class="dialogue-box narration-box">
+    <div class="dialogue narration">{safe_message}</div>
+</div>
+""", unsafe_allow_html=True)
 
     else:
 
         safe_speaker = html.escape(speaker)
-
-        # 캐릭터별 색상 클래스
         speaker_class = SPEAKER_CLASSES.get(speaker, "")
-
-        # 캐릭터 이미지
         character_image = CHARACTER_IMAGES.get(speaker)
 
         if character_image and character_image.is_file():
@@ -928,21 +1011,20 @@ if dialogues:
 
             with dialogue_col:
                 st.markdown(f"""
-                <div class="dialogue-box {speaker_class}">
-                    <div class="speaker">{safe_speaker}</div>
-                    <div class="dialogue">{safe_message}</div>
-                </div>
-                """, unsafe_allow_html=True)
+<div class="dialogue-box {speaker_class}">
+    <div class="speaker">{safe_speaker}</div>
+    <div class="dialogue">{safe_message}</div>
+</div>
+""", unsafe_allow_html=True)
 
-        # 캐릭터 이미지가 없는 경우
         else:
 
             st.markdown(f"""
-            <div class="dialogue-box {speaker_class}">
-                <div class="speaker">{safe_speaker}</div>
-                <div class="dialogue">{safe_message}</div>
-            </div>
-            """, unsafe_allow_html=True)
+<div class="dialogue-box {speaker_class}">
+    <div class="speaker">{safe_speaker}</div>
+    <div class="dialogue">{safe_message}</div>
+</div>
+""", unsafe_allow_html=True)
 
     # 대사 진행 상황
     st.markdown(
